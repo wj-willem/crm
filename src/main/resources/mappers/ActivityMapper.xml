@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.crm.workbench.mapper.ActivityMapper">
+
+    <select id="queryAllActivity" resultType="java.util.Map">
+        select ta.*,tu.name uname from tbl_activity ta left join tbl_user tu on ta.owner = tu.id
+        <where>
+            <if test="name != null and name != ''">
+                ta.name like concat('%',#{name},'%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and tu.name like concat('%',#{owner},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and ta.startDate > #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and  #{endTime} > ta.endDate
+            </if>
+    </where>
+    </select>
+</mapper>
